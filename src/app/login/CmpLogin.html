@@ -1,0 +1,16 @@
+<h1>Mengambil data dari <br /> https://login-bir3msoyja-et.a.run.app</h1>
+
+<div class="kotak_login">
+    <p class="tulisan_login">Silahkan login</p>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <label>Username</label>
+        <input type="text" name="username" class="form_login" [(ngModel)]="user" placeholder="Username">
+
+        <label>Password</label>
+        <input type="password" name="password" class="form_login" [(ngModel)]="password" placeholder="Password ..">
+
+        <input type="submit" [disabled]="loginForm.invalid" class="tombol_login" value="LOGIN">
+
+    </form>
+</div>

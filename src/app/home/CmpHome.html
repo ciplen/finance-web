@@ -1,0 +1,36 @@
+<body>
+    <div class="sidebar">
+        <a class="active" href="#home">Home</a>
+        <a href="#about">About</a>
+        <a (click)="logout()">Keluar</a>
+    </div>
+
+    <div class="content">
+        <div *ngIf="finance.length > 0; else noData">
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Nama Produk</th>
+                        <th>Jumlah Bayar</th>
+                        <th>Metode</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let trx of finance" (click)="selectTransaction(trx)">
+                        <td>{{ trx.order_id }}</td>
+                        <td>{{ trx.product.name }}</td>
+                        <td>{{ trx.payment.amount | currency:'IDR':'symbol' }}</td>
+                        <td>{{ trx.payment.method }}</td>
+                        <td>{{ trx.detail.transaction_status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+<ng-template #noData>
+    <p>Tidak ada data transaksi.</p>
+</ng-template>
