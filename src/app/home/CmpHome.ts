@@ -46,7 +46,8 @@ export class CmpHome extends Component implements OnInit {
     }
 
     selectTransaction(trx: any) {
-        alert('Transaksi diklik:' + JSON.stringify(trx.payment));
+        localStorage.setItem('selectedTransaction', JSON.stringify(trx)); // Simpan ke localStorage
+        this.router.navigate(['/dtl', trx.order_id]);
     }
 
     logout() {

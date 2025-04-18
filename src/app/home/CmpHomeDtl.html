@@ -1,0 +1,35 @@
+<div class="sidebar">
+    <a class="active" href="./home">Home</a>
+    <a (click)="logout()">Keluar</a>
+</div>
+
+<div class="content">
+    <div *ngIf="trxData; else noData">
+        <h2>Detail Transaksi</h2>
+
+        <h3>Produk</h3>
+        <p><strong>Nama Produk:</strong> {{ trxData.product.name }}</p>
+        <p><strong>Device ID:</strong> {{ trxData.product.device_id }}</p>
+        <p><strong>SKU:</strong> {{ trxData.product.sku }}</p>
+        <p><strong>Location:</strong> {{ trxData.product.location || 'Tidak ada' }}</p>
+
+        <h3>Pembayaran</h3>
+        <p><strong>Metode Pembayaran:</strong> {{ trxData.payment.method }}</p>
+        <p><strong>Jumlah:</strong> {{ trxData.payment.amount }}</p>
+        <p><strong>Jumlah Nett:</strong> {{ trxData.payment.nett }}</p>
+
+        <h3>Detail Pembayaran</h3>
+        <p><strong>Transaction ID:</strong> {{ trxData.payment.detail.transaction_id }}</p>
+        <p><strong>Status Transaksi:</strong> {{ trxData.payment.detail.transaction_status }}</p>
+        <p><strong>Waktu Transaksi:</strong> {{ trxData.payment.detail.transaction_time }}</p>
+        <p><strong>Issuer:</strong> {{ trxData.payment.detail.issuer }}</p>
+
+        <h3>Waktu</h3>
+        <p><strong>Timestamp:</strong> {{ trxData.time.timestamp }}</p>
+    </div>
+
+    <ng-template #noData>
+        <p>Data transaksi tidak ditemukan.</p>
+    </ng-template>
+
+</div>
