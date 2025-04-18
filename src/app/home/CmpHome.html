@@ -20,7 +20,7 @@
                     <tr *ngFor="let trx of finance" (click)="selectTransaction(trx)">
                         <td>{{ trx.order_id }}</td>
                         <td>{{ trx.product.name }}</td>
-                        <td>{{ trx.payment.amount | currency:'IDR':'symbol' }}</td>
+                        <td>{{ trx.payment.amount | currency:'IDR ':'symbol' }}</td>
                         <td>{{ trx.payment.method }}</td>
                         <td>{{ trx.detail.transaction_status }}</td>
                     </tr>

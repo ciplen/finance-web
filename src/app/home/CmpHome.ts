@@ -46,7 +46,7 @@ export class CmpHome extends Component implements OnInit {
     }
 
     selectTransaction(trx: any) {
-        alert('Transaksi diklik:' + JSON.stringify(trx));
+        alert('Transaksi diklik:' + JSON.stringify(trx.payment));
     }
 
     logout() {
