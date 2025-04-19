@@ -1,30 +1,90 @@
-<div class="p-4">
-    <div *ngIf="trxData; else noData">
-        <h2>Detail Transaksi</h2>
+<div class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
+    <!-- Payment info -->
+    <div class="grid grid-cols-2 items-center mt-8">
+        <div>
+            <p class="font-bold text-gray-800">
+                Payment :
+            </p>
+            <p>Payment Method <span class="text-gray-500">{{trxData.payment.method}}</span></p>
+            <p>Platform <span class="text-gray-500">{{trxData.payment.detail.issuer}}</span></p>
+        </div>
 
-        <h3>Produk</h3>
-        <p><strong>Nama Produk:</strong> {{ trxData.product.name }}</p>
-        <p><strong>Device ID:</strong> {{ trxData.product.device_id }}</p>
-        <p><strong>SKU:</strong> {{ trxData.product.sku }}</p>
-        <p><strong>Location:</strong> {{ trxData.product.location || 'Tidak ada' }}</p>
-
-        <h3>Pembayaran</h3>
-        <p><strong>Metode Pembayaran:</strong> {{ trxData.payment.method }}</p>
-        <p><strong>Jumlah:</strong> {{ trxData.payment.amount }}</p>
-        <p><strong>Jumlah Nett:</strong> {{ trxData.payment.nett }}</p>
-
-        <h3>Detail Pembayaran</h3>
-        <p><strong>Transaction ID:</strong> {{ trxData.payment.detail.transaction_id }}</p>
-        <p><strong>Status Transaksi:</strong> {{ trxData.payment.detail.transaction_status }}</p>
-        <p><strong>Waktu Transaksi:</strong> {{ trxData.payment.detail.transaction_time }}</p>
-        <p><strong>Issuer:</strong> {{ trxData.payment.detail.issuer }}</p>
-
-        <h3>Waktu</h3>
-        <p><strong>Timestamp:</strong> {{ trxData.time.timestamp }}</p>
+        <div class="text-right">
+            <p>Transaction Time: <span class="text-gray-500">{{trxData.payment.detail.transaction_time}}</span></p>
+            <p>Payment Status: <span class="text-gray-500">{{trxData.detail.transaction_status}}</span></p>
+        </div>
     </div>
 
-    <ng-template #noData>
-        <p>Data transaksi tidak ditemukan.</p>
-    </ng-template>
+    <!-- Items -->
+    <div class="-mx-4 mt-8 flow-root sm:mx-0">
+        <table class="min-w-full">
+            <colgroup>
+                <col class="w-full sm:w-1/2">
+                <col class="sm:w-1/6">
+                <col class="sm:w-1/6">
+                <col class="sm:w-1/6">
+            </colgroup>
+            <thead class="border-b border-gray-300 text-gray-900">
+                <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Items
+                    </th>
+                    <th scope="col"
+                        class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">Quantity
+                    </th>
+                    <th scope="col"
+                        class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">Price
+                    </th>
+                    <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
+                        Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-gray-200">
+                    <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
+                        <div class="font-medium text-gray-900">{{ trxData.product.name }}</div>
+                        <div class="mt-1 truncate text-gray-500">{{ trxData.product.device_id }}</div>
+                    </td>
+                    <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">1</td>
+                    <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">{{trxData.payment.amount
+                        | currency:'IDR ':'symbol'}}</td>
+                    <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">{{ trxData.payment.nett |
+                        currency:'IDR ':'symbol' }}</td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row" colspan="3"
+                        class="hidden pl-4 pr-3 pt-6 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">
+                        Subtotal</th>
+                    <th scope="row" class="pl-6 pr-3 pt-6 text-left text-sm font-normal text-gray-500 sm:hidden">
+                        Subtotal</th>
+                    <td class="pl-3 pr-6 pt-6 text-right text-sm text-gray-500 sm:pr-0">{{ trxData.payment.amount |
+                        currency:'IDR ':'symbol'}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="3"
+                        class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">
+                        Platform Sharing Revenue</th>
+                    <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">
+                        Platform Sharing Revenue</th>
+                    <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">
+                        {{trxData.payment.fee.platform_sharing_revenue | currency:'IDR ':'symbol'}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="3"
+                        class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">
+                        Total</th>
+                    <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">Total
+                    </th>
+                    <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
+                        {{trxData.payment.nett | currency:'IDR ':'symbol'}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!--  Footer  -->
+    <div class="border-t-2 pt-4 text-xs text-gray-500 text-center mt-16">Detail Transaction</div>
 
 </div>

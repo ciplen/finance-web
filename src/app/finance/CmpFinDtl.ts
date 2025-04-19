@@ -17,6 +17,7 @@ import { Order } from '../dto/DtoHomeDtl';
 
 export class CmpFinDtl implements OnInit {
     trxData: any;
+    tax : any;
 
     constructor(private router: Router,
         private route: ActivatedRoute
@@ -28,6 +29,7 @@ export class CmpFinDtl implements OnInit {
         if (rawData) {
             this.trxData = JSON.parse(rawData);
             console.log('Data transaksi:', this.trxData);
+            
         } else {
             console.warn('Data transaksi tidak ditemukan');
         }
