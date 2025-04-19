@@ -5,24 +5,22 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Order } from '../dto/DtoHomeDtl';
 
 @Component({
-    selector: 'cmp-home-dtl',
-    templateUrl: 'CmpHomeDtl.html',
+    selector: 'cmp-fin-dtl',
+    templateUrl: 'CmpFinDtl.html',
     standalone: true,
-    imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, MatDividerModule],
-    styleUrls: ['./CmpHomeDtl.scss']
+    imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, RouterModule, MatDividerModule],
 })
 
-export class CmpHomeDtl extends Component implements OnInit {
+export class CmpFinDtl implements OnInit {
     trxData: any;
 
     constructor(private router: Router,
         private route: ActivatedRoute
     ) {
-        super({});
     }
 
     ngOnInit() {

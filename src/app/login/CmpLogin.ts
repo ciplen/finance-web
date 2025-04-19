@@ -7,7 +7,6 @@ import { MatDialogModule } from "@angular/material/dialog";
 
 @Component({
     selector: 'CmpLogin',
-    styleUrls: ['CmpLogin.scss'],
     standalone: true,
     imports: [CommonModule, FormsModule, MatDialogModule],
     templateUrl: 'CmpLogin.html'
@@ -20,10 +19,18 @@ export class CmpLogin implements OnInit {
 
     constructor(private http: HttpClient,
         private router: Router,
-
     ) { }
+    
     ngOnInit(): void {
         // throw new Error("Method not implemented.");
+    }
+
+    alertDialog() {
+        alert('Feature On Progress');
+    }
+
+    registerPage() {
+        alert('The Page for Register is under development');
     }
 
     onSubmit() {
