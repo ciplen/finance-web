@@ -25,7 +25,7 @@ export class CmpHome extends Component implements OnInit {
     }
 
     settingPage() {
-        alert('The Page for Setting is under development');
+        alert('Setting is under development');
     }
 
     logout() {
