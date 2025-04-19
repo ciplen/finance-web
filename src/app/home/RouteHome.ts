@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmpHome } from './CmpHome';
-import { CmpFinDtl } from '../finance/CmpFinDtl';
-import { CmpFin } from '../finance/CmpFin';
+import { CmpTrx } from '../finance/CmpTrx';
 import { CmpDash } from '../dashboard/CmpDash';
+import { CmpTrxDtl } from '../finance/CmpTrxDtl';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -12,8 +12,8 @@ import { CmpDash } from '../dashboard/CmpDash';
             canActivate: [],
             children: [
                 { path: '', component: CmpDash },
-                { path: 'fin', component: CmpFin },
-                { path: 'fin/:order_id', component: CmpFinDtl },
+                { path: 'trx', component: CmpTrx },
+                { path: 'trx/:order_id', component: CmpTrxDtl },
             ]
         }
     ])],

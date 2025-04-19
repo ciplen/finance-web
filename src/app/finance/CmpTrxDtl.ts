@@ -10,12 +10,12 @@ import { Order } from '../dto/DtoHomeDtl';
 
 @Component({
     selector: 'cmp-fin-dtl',
-    templateUrl: 'CmpFinDtl.html',
+    templateUrl: 'CmpTrxDtl.html',
     standalone: true,
     imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, RouterModule, MatDividerModule],
 })
 
-export class CmpFinDtl implements OnInit {
+export class CmpTrxDtl implements OnInit {
     trxData: any;
     tax : any;
 

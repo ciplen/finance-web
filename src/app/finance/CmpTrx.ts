@@ -9,12 +9,12 @@ import { MatDividerModule } from "@angular/material/divider";
 
 @Component({
     selector: 'cmp-fin',
-    templateUrl: 'CmpFin.html',
+    templateUrl: 'CmpTrx.html',
     standalone: true,
     imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, RouterModule, MatDividerModule],
 })
 
-export class CmpFin implements OnInit {
+export class CmpTrx implements OnInit {
     finance: any[] = [];
 
     constructor(private router: Router,

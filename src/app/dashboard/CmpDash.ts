@@ -1,5 +1,5 @@
 import { CommonModule, DecimalPipe } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSidenavModule } from "@angular/material/sidenav";
@@ -12,6 +12,7 @@ import { MatDividerModule } from "@angular/material/divider";
     templateUrl: 'CmpDash.html',
     standalone: true,
     imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, RouterModule, MatDividerModule],
+    providers: [DecimalPipe]
 })
 
 export class CmpDash implements OnInit {
@@ -22,10 +23,28 @@ export class CmpDash implements OnInit {
     amntSettlement: number = 0;
     amntRefunded: number = 0;
     amntCancel: number = 0;
+    myChart?: ApexCharts;
 
     constructor(private router: Router,
         private route: ActivatedRoute,
+        private numberPipe: DecimalPipe
     ) {
+    }
+
+    searchData(data: any) {
+        const dto = {
+            "order_1": { method: "RFID", nett: 34564 },
+            "order_2": { method: "E-efe", nett: 34555 },
+            "order_3": { method: "E-wefqw", nett: 55444 },
+            "order_4": { method: "E-qwfqwf", nett: 54433 },
+            "order_5": { method: "E-awfdqwd", nett: 45434 },
+            "order_6": { method: "E-wdqw", nett: 34543 },
+        };
+        const chartData = Object.entries(dto).map(([key, item]: any) => ({
+            label: item.method,
+            value: item.nett
+        }));
+        this.chart(chartData);
     }
 
     ngOnInit() {
@@ -33,6 +52,7 @@ export class CmpDash implements OnInit {
             // // Ambil data pengguna dari localStorage
             const storedData = localStorage.getItem('finance');
             if (storedData) {
+
                 const parsed = JSON.parse(storedData);
                 const statusCount: Record<string, number> = {};
                 const amountByStatus: Record<string, number> = {};
@@ -70,9 +90,8 @@ export class CmpDash implements OnInit {
                         order_id: key,
                         ...parsed.data[key]
                     }));
+                this.searchData(this.finance[0].payment);
             }
-
-            // this.searchProfLos(this.finance);
 
             // Jika tidak ada data pengguna, arahkan kembali ke halaman login
             if (!this.finance || Object.keys(this.finance).length === 0) {
@@ -81,122 +100,116 @@ export class CmpDash implements OnInit {
         }
     }
 
-    // chart(data: any) {
-    //     var update = data.map((item: { label: any; value: any; }) => ({
-    //         x: item.label,
-    //         y: item.value,
-    //     }));
+    chart(data: any) {
+        const update = data.map((item: { label: any; value: any }) => ({
+            x: item.label,
+            y: item.value
+        }));
 
-    //     if (!this.myChart) {
-    //         const options: ApexCharts.ApexOptions = {
-    //             colors: ["#1A56DB", "#FDBA8C"],
-    //             series: [
-    //                 {
-    //                     name: "Laba Rugi",
-    //                     color: "#F9E79F",
-    //                     data: update
-    //                 }],
-    //             chart: {
-    //                 type: "bar",
-    //                 height: "220px",
-    //                 fontFamily: "Inter, sans-serif",
-    //                 toolbar: {
-    //                     show: false,
-    //                 },
-    //             },
-    //             plotOptions: {
-    //                 bar: {
-    //                     horizontal: false,
-    //                     columnWidth: "50%",
-    //                     borderRadiusApplication: "end",
-    //                     borderRadius: 8,
-    //                 },
-    //             },
-    //             tooltip: {
-    //                 shared: true,
-    //                 intersect: false,
-    //                 style: {
-    //                     fontFamily: "Inter, sans-serif",
-    //                 },
-    //                 y: {
-    //                     formatter: (val) => {
-    //                         return this.numberPipe.transform(val, '.2') || '0'
-    //                     }
-    //                 }
-    //             },
-    //             states: {
-    //                 hover: {
-    //                     filter: {
-    //                         type: "darken",
-    //                         value: 1,
-    //                     },
-    //                 },
-    //             },
-    //             stroke: {
-    //                 show: true,
-    //                 width: 0,
-    //                 colors: ["transparent"],
-    //             },
-    //             grid: {
-    //                 show: false,
-    //                 strokeDashArray: 4,
-    //                 padding: {
-    //                     left: 2,
-    //                     right: 2,
-    //                     top: -14,
-    //                 },
-    //             },
-    //             dataLabels: {
-    //                 enabled: false,
-    //             },
-    //             legend: {
-    //                 show: false,
-    //             },
-    //             xaxis: {
-    //                 floating: false,
-    //                 labels: {
-    //                     show: true,
-    //                     style: {
-    //                         fontFamily: "Inter, sans-serif",
-    //                         cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
-    //                     },
-    //                 },
-    //                 axisBorder: {
-    //                     show: false,
-    //                 },
-    //                 axisTicks: {
-    //                     show: false,
-    //                 },
-    //             },
-    //             yaxis: {
-    //                 show: false,
-    //             },
-    //             fill: {
-    //                 opacity: 1,
-    //             },
-    //         };
+        if (!this.myChart) {
+            const options: ApexCharts.ApexOptions = {
+                colors: ["#1A56DB", "#FDBA8C"],
+                series: [
+                    {
+                        name: "Laba Rugi",
+                        color: "#F9E79F",
+                        data: update
+                    }],
+                chart: {
+                    type: "bar",
+                    height: "220px",
+                    fontFamily: "Inter, sans-serif",
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: "50%",
+                        borderRadiusApplication: "end",
+                        borderRadius: 8,
+                    },
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                    },
+                    y: {
+                        formatter: (val) => {
+                            return this.numberPipe.transform(val, '.2') || '0'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        filter: {
+                            type: "darken",
+                        },
+                    },
+                },
+                stroke: {
+                    show: true,
+                    width: 0,
+                    colors: ["transparent"],
+                },
+                grid: {
+                    show: false,
+                    strokeDashArray: 4,
+                    padding: {
+                        left: 2,
+                        right: 2,
+                        top: -14,
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                legend: {
+                    show: false,
+                },
+                xaxis: {
+                    floating: false,
+                    labels: {
+                        show: true,
+                        style: {
+                            fontFamily: "Inter, sans-serif",
+                            cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
+                        },
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    show: false,
+                },
+                fill: {
+                    opacity: 1,
+                },
+            };
 
-    //         if (document.getElementById("column-chart") && typeof ApexCharts !== "undefined") {
-    //             this.myChart = new ApexCharts(
-    //                 document.getElementById("column-chart"),
-    //                 options
-    //             );
+            if (document.getElementById("column-chart") && typeof ApexCharts !== "undefined") {
+                this.myChart = new ApexCharts(
+                    document.getElementById("column-chart"),
+                    options
+                );
 
-    //             this.myChart.render();
-    //         }
-    //     } else {
-    //         this.myChart?.updateSeries([
-    //             {
-    //                 name: "Laba Rugi",
-    //                 color: "#F9E79F",
-    //                 data: update
-    //             }])
-    //     }
-    // }
+                this.myChart.render();
+            }
+        } else {
+            this.myChart?.updateSeries([
+                {
+                    name: "Trx",
+                    color: "#F9E79F",
+                    data: update
+                }])
+        }
 
-    // searchProfLos(finance: any) {
-    //     this.chart(finance);
-    // }
-
-
+    }
 }
