@@ -10,6 +10,7 @@ import { MatDividerModule } from "@angular/material/divider";
 @Component({
     selector: 'cmp-dash',
     templateUrl: 'CmpDash.html',
+    styleUrls: ['CmpDash.css'],
     standalone: true,
     imports: [CommonModule, FormsModule, MatDialogModule, MatSidenavModule, MatIconModule, RouterModule, MatDividerModule],
     providers: [DecimalPipe]
@@ -29,22 +30,6 @@ export class CmpDash implements OnInit {
         private route: ActivatedRoute,
         private numberPipe: DecimalPipe
     ) {
-    }
-
-    searchData(data: any) {
-        const dto = {
-            "order_1": { method: "RFID", nett: 34564 },
-            "order_2": { method: "E-efe", nett: 34555 },
-            "order_3": { method: "E-wefqw", nett: 55444 },
-            "order_4": { method: "E-qwfqwf", nett: 54433 },
-            "order_5": { method: "E-awfdqwd", nett: 45434 },
-            "order_6": { method: "E-wdqw", nett: 34543 },
-        };
-        const chartData = Object.entries(dto).map(([key, item]: any) => ({
-            label: item.method,
-            value: item.nett
-        }));
-        this.chart(chartData);
     }
 
     ngOnInit() {
@@ -90,7 +75,7 @@ export class CmpDash implements OnInit {
                         order_id: key,
                         ...parsed.data[key]
                     }));
-                this.searchData(this.finance[0].payment);
+                this.chart(this.finance);
             }
 
             // Jika tidak ada data pengguna, arahkan kembali ke halaman login
@@ -101,23 +86,24 @@ export class CmpDash implements OnInit {
     }
 
     chart(data: any) {
-        const update = data.map((item: { label: any; value: any }) => ({
-            x: item.label,
-            y: item.value
+        const update = Object.entries(data).map(([key, value]: any) => ({
+            x: value.payment.method,  // method
+            y: value.payment.amount     // amount
         }));
+        console.log("Data yang diambil adalah " + update);
 
         if (!this.myChart) {
             const options: ApexCharts.ApexOptions = {
                 colors: ["#1A56DB", "#FDBA8C"],
                 series: [
                     {
-                        name: "Laba Rugi",
+                        name: "Transaction",
                         color: "#F9E79F",
                         data: update
                     }],
                 chart: {
                     type: "bar",
-                    height: "220px",
+                    height: 220,
                     fontFamily: "Inter, sans-serif",
                     toolbar: {
                         show: false,
@@ -171,6 +157,7 @@ export class CmpDash implements OnInit {
                     show: false,
                 },
                 xaxis: {
+                    type: "category",
                     floating: false,
                     labels: {
                         show: true,
