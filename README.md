@@ -4,7 +4,7 @@
 Proyek ini menggunakan **Angular** sebagai framework JavaScript untuk membangun aplikasi web dan **Tailwind CSS** untuk styling antarmuka pengguna. Tailwind CSS memberikan fleksibilitas dalam desain dengan pendekatan utility-first, sementara Angular menangani logika aplikasi, routing, dan pengelolaan status aplikasi.
 
 ## Persyaratan Sistem
-- Node.js versi 14.x atau lebih tinggi
+- Node.js versi 20.x atau lebih tinggi
 - NPM atau Yarn
 - Angular CLI
 - Tailwind CSS
