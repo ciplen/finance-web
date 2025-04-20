@@ -21,6 +21,10 @@ export class CmpDash implements OnInit {
     cntSettlement: number = 0;
     cntRefunded: number = 0;
     cntCancel: number = 0;
+    cntQrs: number = 0;
+    cntEcr: number = 0;
+    cntRfid: number = 0;
+    cntCash: number = 0;
     amntSettlement: number = 0;
     amntRefunded: number = 0;
     amntCancel: number = 0;
@@ -41,6 +45,7 @@ export class CmpDash implements OnInit {
                 const parsed = JSON.parse(storedData);
                 const statusCount: Record<string, number> = {};
                 const amountByStatus: Record<string, number> = {};
+                const paymentCount: Record<string, number> = {};
 
                 // Convert object with dynamic keys into array
                 this.finance = Object.keys(parsed.data)
@@ -48,6 +53,7 @@ export class CmpDash implements OnInit {
                         const entry = parsed.data[key];
 
                         const status = entry.detail?.transaction_status;
+                        const payment = entry.payment?.method;
                         const isValidStatus = status === 'settlement';
 
                         if (!statusCount[status]) {
@@ -68,6 +74,17 @@ export class CmpDash implements OnInit {
                         this.amntSettlement = amountByStatus['settlement'] || 0;
                         this.amntRefunded = amountByStatus['refunded'] || 0;
                         this.amntCancel = amountByStatus['cancel'] || 0;
+
+
+                        if (!paymentCount[payment]) {
+                            paymentCount[payment] = 0;
+                        }
+
+                        paymentCount[payment]++;
+                        this.cntCash = paymentCount['CASH'] || 0;
+                        this.cntQrs = paymentCount['QRIS-MIDTRANS'] || 0;
+                        this.cntEcr = paymentCount['ECR'] || 0;
+                        this.cntRfid = paymentCount['RFID'] || 0;
 
                         return isValidStatus && isValidAmount;
                     })
