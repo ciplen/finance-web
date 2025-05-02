@@ -13,7 +13,7 @@ import { CmpTrxDtl } from '../finance/CmpTrxDtl';
             children: [
                 { path: '', component: CmpDash },
                 { path: 'trx', component: CmpTrx },
-                { path: 'trx/:order_id', component: CmpTrxDtl },
+                //{ path: 'trx/:order_id', component: CmpTrxDtl },
             ]
         }
     ])],
